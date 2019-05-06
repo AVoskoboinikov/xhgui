@@ -12,16 +12,6 @@
                 </th>
                 <th>URL</th>
                 <th>
-                    Topic
-
-                    <div id="request-params-details">
-                        <span class="request-params-button-close pull-right">&#10799;</span>
-                        <div class="request-params-details-content">
-                            <pre id="params-json-viewer"></pre>
-                        </div>
-                    </div>
-                </th>
-                <th>
                     {{ helpers.sort_link('Time', base_url, 'time', paging, search) }}
                 </th>
                 <th class="right">
@@ -78,19 +68,6 @@
                     'url.view',
                     {'url': result.meta.simple_url}
                 ) }}
-            </td>
-            <td>
-                {% set topic = result.meta('topic') %}
-                {{ helpers.tip_link(
-                    topic,
-                    50,
-                    'home',
-                    {'topic': result.meta.topic}
-                ) }}
-
-                {% if result.meta('params') is not empty %}
-                    <a href="#" class="view-request-params" data-params="{{result.meta('params')|json_encode()}}">[?]</a>
-                {% endif %}
             </td>
             <td>
               <a href="{{ url('run.view', {'id': result.id|trim }) }}">
