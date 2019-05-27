@@ -2,7 +2,7 @@
 $(document).ready(function () {
     $(document).on("click", ".view-request-params", function () {
         $('#request-params-details').addClass('active');
-        $('#request-params-details').find('#query-details').find("pre").text($(this).attr('data-query'));
+        $('#request-params-details').find('#query-details').find("pre").text(unescape($(this).attr('data-query')));
 
         var p = JSON.parse(unescape($(this).attr('data-params')));
         var pc = '';

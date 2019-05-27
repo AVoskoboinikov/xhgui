@@ -10,10 +10,22 @@
 <div class="row-fluid">
     <br>
 
-    <div class="row-fluid form-search">
-      <div class="pull-right form-search">
-          <input type="search" id="function-filter" placeholder="Filter by function name" />
-      </div>
+    <div class="span9">
+        <div class="sidebar-nav">
+            <ul class="nav nav-list">
+                {% if topic is not empty %}
+                    <li><strong>Topic</strong> {{topic}} </li>
+                {% endif %}
+
+                {% if totalCount is not empty %}
+                    <li><strong>Total Count</strong> {{totalCount}} </li>
+                {% endif %}
+
+                {% if totalTime is not empty %}
+                    <li><strong>Total Time</strong> {{totalTime|number_format(0, '.', ' ')}} </li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
 
     <br>
@@ -56,7 +68,7 @@
         };
 
         var queryFormatter = function (column, row, data) {
-            return '<a href="#" class="view-request-params" data-query="' + data.q + '" data-params="' + escape(JSON.stringify(data.p)) + '">' + data.q + '</a>';
+            return '<a href="#" class="view-request-params" data-query="' + escape(data.q) + '" data-params="' + escape(JSON.stringify(data.p)) + '">' + data.q + '</a>';
         };
 
         var columns = [
