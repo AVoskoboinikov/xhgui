@@ -15,7 +15,6 @@
     transition: left 0.25s ease-out;
 }
 .request-params-details-content {
-    /*height: 100%;*/
     padding: 0 10px 10px 10px;
     overflow-y: scroll;
 }

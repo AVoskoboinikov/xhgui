@@ -128,9 +128,6 @@ class Xhgui_Controller_Run extends Xhgui_Controller
             $queries[$k]['t_max'] = (int) (1000000 * max($queries[$k]['t']));
         }
 
-//        var_dump($queries);
-//        die;
-
         $this->_template = 'runs/queries.twig';
         $this->set(array(
             'queries' => $queries
