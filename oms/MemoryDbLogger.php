@@ -24,7 +24,7 @@ class MemoryDbLogger
     {
         foreach (self::$queriesLog as $queryLog) {
             $q = $queryLog['q'][0];
-            $p = $queryLog['q'][1];
+            $p = $queryLog['q'][1] ?? [];
             $t = $queryLog['t'];
 
             $qh = md5($q);

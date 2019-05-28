@@ -144,20 +144,43 @@ class XH
         require_once __DIR__ . "/../vendor/antecedent/patchwork/Patchwork.php";
 
         Patchwork\redefine(
-            "Doctrine\DBAL\Connection::executeQuery",
+            "Doctrine\DBAL\Driver\OCI8\OCI8Statement::__construct",
             function() {
+                $args = func_get_args();
+                $this->mcom_stmt = $args[1] ?? 'none';
+                $this->mcom_params = [];
+
+                return Patchwork\relay();
+            }
+        );
+
+        Patchwork\redefine(
+            "Doctrine\DBAL\Driver\OCI8\OCI8Statement::bindParam",
+            function() {
+                $args = func_get_args();
+                $this->mcom_params[] = $args[1];
+
+                return Patchwork\relay();
+            }
+        );
+
+        Patchwork\redefine(
+            "Doctrine\DBAL\Driver\OCI8\OCI8Statement::execute",
+            function() {
+
                 $s = microtime(true);
                 $r = Patchwork\relay();
                 $f = microtime(true);
 
-                OMS\MemoryDbLogger::logQuery(func_get_args(), $f - $s);
+                OMS\MemoryDbLogger::logQuery([$this->mcom_stmt, $this->mcom_params], $f - $s);
+                $this->mcom_params = [];
 
                 return $r;
             }
         );
 
-        if (!class_exists(Doctrine\DBAL\Connection::class)) {
-            error_log("Can't patch Doctrine\DBAL\Connection class");
+        if (!class_exists('Doctrine\DBAL\Driver\OCI8\OCI8Statement')) {
+            error_log("Can't patch Doctrine\DBAL\Driver\OCI8\OCI8Statement class");
         }
 
         Patchwork\CodeManipulation\Stream::unwrap();

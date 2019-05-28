@@ -116,7 +116,11 @@ class Xhgui_Controller_Run extends Xhgui_Controller
     public function dbQueries()
     {
         $request = $this->_app->request();
-        $queries = $this->_profiles->get($request->get('id'))->getMeta('queries');
+        $result = $this->_profiles->get($request->get('id'));
+        $queries = $result->getMeta('queries');
+        $topic = $result->getMeta('topic');
+        $totalCount = 0;
+        $totalTime = 0;
 
         foreach ($queries as $k => $v) {
             $queries[$k]['id'] = $k + 1;
@@ -126,11 +130,17 @@ class Xhgui_Controller_Run extends Xhgui_Controller
             $queries[$k]['t_avg'] = (int) (1000000 * array_sum($queries[$k]['t'])/count($queries[$k]['t']));
             $queries[$k]['t_min'] = (int) (1000000 * min($queries[$k]['t']));
             $queries[$k]['t_max'] = (int) (1000000 * max($queries[$k]['t']));
+
+            $totalCount += count($queries[$k]['p']);
+            $totalTime += (int) (1000000 * array_sum($queries[$k]['t']));
         }
 
         $this->_template = 'runs/queries.twig';
         $this->set(array(
-            'queries' => $queries
+            'queries' => $queries,
+            'topic' => $topic,
+            'totalCount' => $totalCount,
+            'totalTime' => $totalTime,
         ));
     }
 
