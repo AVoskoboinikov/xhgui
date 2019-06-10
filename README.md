@@ -92,16 +92,7 @@ tideways.sample_rate=100
 Install autoconf for OMS721
 =======
 ```bash
-sudo yum install -y m4
-sudo yum install -y perl-Data-Dumper.x86_64
-
-wget http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz
-gunzip autoconf-2.69.tar.gz
-tar xvf autoconf-2.69.tar
-cd autoconf-2.69
-./configure
-sudo make
-sudo make install
+sudo yum install -y autoconf
 ```
 
 Add indexes to MongoDB
